@@ -74,7 +74,15 @@ void OpenFile(char *FileName, char * mode)
 //////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+    if (argc != 3)
+    {
+        printf("Usage: %s <FileName> <Mode>\n", argv[0]);
+        printf("Modes: R  W  RW  A\n");
+        return -1;
+    }
+
     OpenFile(argv[1],argv[2]);
 
     return 0;
 }
+

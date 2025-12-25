@@ -13,7 +13,7 @@
 #include<errno.h>
 #include<unistd.h>
 #include<string.h>
-#include <sys/stat.h>
+#include<sys/stat.h>
 #include<time.h>
 
 ////////////////////////////////////////////////////////////////////////////
@@ -51,6 +51,23 @@ void DisplayMetadata(char *FileName)
 
         printf("Permissions: %o\n",StatBuffer.st_mode & 0777);
 
+        if (S_ISREG(StatBuffer.st_mode))
+        {
+            printf("File Type : Regular File\n");
+        }
+        else if (S_ISDIR(StatBuffer.st_mode))
+        {       
+            printf("File Type : Directory\n");
+        }
+        else if (S_ISLNK(StatBuffer.st_mode))
+        {
+            printf("File Type : Symbolic Link\n");
+        }
+        else
+        {
+            printf("File Type : Other\n");
+        }
+
         printf("Last access time (Atime): %s", ctime(&StatBuffer.st_atime));
 
         printf("Last modification time (Mtime): %s", ctime(&StatBuffer.st_mtime)); 
@@ -69,7 +86,14 @@ void DisplayMetadata(char *FileName)
 /////////////////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+    if (argc != 2)
+    {
+        printf("Usage: %s <FileName>\n", argv[0]);
+        return -1;
+    }
+    
     DisplayMetadata(argv[1]);
 
     return 0;
 }
+

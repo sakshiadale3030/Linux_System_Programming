@@ -13,13 +13,21 @@
 #include<errno.h>
 #include<unistd.h>
 #include<string.h>
-#include <sys/stat.h>
+#include<sys/stat.h>
 #include<stdlib.h>
+
+///////////////////////////////////////////////////////////////////////////
+//
+//  User Defined Macros
+//
+////////////////////////////////////////////////////////////////////////////
+
+#define SIZE_BUFFER 256
 
 ////////////////////////////////////////////////////////////////////////////
 //
 // Function name : ReadFile
-// Description   : Display file metadata using stat()
+// Description   : Read the N bytes from the file
 // Input         : char*
 // output        : void
 // Author        : Sakshi Ashok Adale.
@@ -27,14 +35,13 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#define SIZE_BUFFER 256
-
 void ReadFile(char *FileName, char * No)
 {
     int fd = 0;
     char Buffer[SIZE_BUFFER];
     int iRet = 0;
 
+    // memset is used to flush and clear
     memset(Buffer,'\0',SIZE_BUFFER);
 
     // open() -> to open regular file.
@@ -69,7 +76,14 @@ void ReadFile(char *FileName, char * No)
 /////////////////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+    if (argc != 3)
+    {
+        printf("Usage: %s <FileName> <NumberOfBytes>\n", argv[0]);
+        return -1;
+    }
+    
     ReadFile(argv[1],argv[2]);
 
     return 0;
 }
+
